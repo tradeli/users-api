@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: users-api
+  profiles:
+    active: local
+
+reqres:
+  api:
+    user-url: https://reqres.in/api/users/
+
+---
+
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  h2:
+    console.enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      #for tests only
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: homolog
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC
+    username: ${USERNAME}
+    password: ${PASSWORD}
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
