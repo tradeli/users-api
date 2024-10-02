@@ -23,7 +23,9 @@ public class UserRetrievalImpl implements UserRetrieval {
     public User findByEmail(String email) {
         var optionalUser = userRepository.findById(email);
 
-        return optionalUser.map(entityMapper::toDomain).orElse(null);
+        return optionalUser
+                .map(user -> entityMapper.toDomain(user, new EntityMapper.CycleAvoidingMappingContext()))
+                .orElse(null);
     }
 
     @Override

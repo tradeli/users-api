@@ -74,6 +74,15 @@ public class User {
     }
 
     public void setFriends(List<User> friends) {
-        this.friends = friends == null ? new ArrayList<User>() : friends;
+        boolean isInvalid;
+        if (friends != null) {
+            isInvalid = friends.stream().anyMatch(e -> e.getEmail().equals(this.getEmail()));
+            if (isInvalid)
+                throw new InvalidParameterException("Friends list contains email of the User");
+
+            this.friends = friends;
+        } else {
+            this.friends = new ArrayList<User>();
+        }
     }
 }

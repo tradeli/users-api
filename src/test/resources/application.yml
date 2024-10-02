@@ -14,7 +14,7 @@ reqres:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: homolog
   h2:
     console.enabled: true
   datasource:
@@ -40,11 +40,9 @@ spring:
     activate:
       on-profile: homolog
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:3306/testdb?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC
     username: ${USERNAME}
     password: ${PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update

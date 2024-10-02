@@ -1,6 +1,18 @@
 version: "3.2"
 
 services:
+  users-api:
+    image: users-api:latest
+    depends_on:
+      mysql-dev:
+        condition: service_healthy
+    environment:
+      #for deployment this would be injected by some infra: e.g Kubernetes secrets
+      USERNAME: root
+      PASSWORD: 123456
+      MYSQL_HOST: mysql-dev
+    ports:
+      - '8080:8080'
   mysql-dev:
     image: mysql:8.0.23
     environment:
@@ -8,3 +20,8 @@ services:
       MYSQL_DATABASE: testdb
     ports:
       - '3306:3306'
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p123456" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

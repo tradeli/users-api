@@ -29,7 +29,8 @@ public class UserManipulationImpl implements UserManipulation {
     @Override
     public User updateOrCreate(User updatedUser) throws RepositoryException {
         try {
-            return entityMapper.toDomain(userRepository.save(entityMapper.fromDomain(updatedUser)));
+            var entity = entityMapper.fromDomain(updatedUser, new EntityMapper.CycleAvoidingMappingContext());
+            return entityMapper.toDomain(userRepository.save(entity), new EntityMapper.CycleAvoidingMappingContext());
         } catch (Exception e) {
             throw new RepositoryException("Error attempting to updateOrDelete", e);
         }

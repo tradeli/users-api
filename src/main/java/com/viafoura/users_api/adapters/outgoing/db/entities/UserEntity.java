@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "users")
 public class UserEntity {
     @Id
     private String email;
@@ -18,7 +18,7 @@ public class UserEntity {
     private String lastName;
     private String avatar;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_friends",
             joinColumns = @JoinColumn(name = "user_email"),
@@ -81,6 +81,6 @@ public class UserEntity {
 
 
     public User toDomain() {
-        return EntityMapper.INSTANCE.toDomain(this);
+        return EntityMapper.INSTANCE.toDomain(this, new EntityMapper.CycleAvoidingMappingContext());
     }
 }

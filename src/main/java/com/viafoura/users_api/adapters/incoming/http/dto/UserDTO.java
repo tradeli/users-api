@@ -1,12 +1,19 @@
 package com.viafoura.users_api.adapters.incoming.http.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
+@Schema(description = "Represents the user to be created")
 public class UserDTO {
+    @Schema(description = "Represents a list of users that are to be set as friends with the current user", example = "test@email.com")
     private String email;
     private String firstName;
     private String lastName;
     private String avatar;
+    @Schema(description = "Represents a list of users that are to be set as friends with the current user",
+            example = """
+                    [{"email": "email@example.com", "firstName": "string", "lastName": "string", "avatar": "string"}]""")
     private List<UserDTO> friends;
 
     public String getEmail() {
